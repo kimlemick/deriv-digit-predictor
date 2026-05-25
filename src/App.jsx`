@@ -40,6 +40,7 @@ export default function App() {
 
                 if (data.tick) {
                     const price = data.tick.quote;
+                    // More robust digit extraction
                     const priceStr = price.toString();
                     const decimalPart = priceStr.includes('.') ? priceStr.split('.')[1] : '0';
                     const lastDigit = parseInt(decimalPart.slice(-1));
@@ -156,6 +157,7 @@ export default function App() {
 
                 <DistributionChart frequencies={frequencies} />
 
+                {/* DEBUG LOG SECTION */}
                 <div className="w-full max-w-2xl mt-8">
                     <div className="flex items-center gap-2 text-slate-500 mb-2 px-2">
                         <Terminal size={16} />
