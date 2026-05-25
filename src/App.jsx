@@ -15,7 +15,8 @@ export default function App() {
     const [tickLog, setTickLog] = useState([]); // For debugging
 
     const ws = useRef(null);
-    const APP_ID = 1049;
+    // User provided App ID
+    const APP_ID = '33mWAs9H95L7oiWqp3c5h';
 
     useEffect(() => {
         const initialFreq = {};
@@ -25,6 +26,7 @@ export default function App() {
 
     useEffect(() => {
         const connect = () => {
+            // Construct URL with the provided App ID
             ws.current = new WebSocket(`wss://ws.binaryws.com/websockets/v3?app_id=${APP_ID}`);
 
             ws.current.onopen = () => {
@@ -34,8 +36,6 @@ export default function App() {
 
             ws.current.onmessage = (event) => {
                 const data = JSON.parse(event.data);
-
-                // Log every incoming message for debugging
                 setTickLog(prev => [data, ...prev].slice(0, 5));
 
                 if (data.tick) {
@@ -43,7 +43,6 @@ export default function App() {
                     const priceStr = price.toString();
                     const decimalPart = priceStr.includes('.') ? priceStr.split('.')[1] : '0';
                     const lastDigit = parseInt(decimalPart.slice(-1));
-
                     handleNewDigit(lastDigit);
                 } else if (data.error) {
                     console.error('Deriv API Error:', data.error);
